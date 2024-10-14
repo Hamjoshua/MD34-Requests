@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class Adapter(private val context: Context,
-              private val list: ArrayList<ColorData>) :
+              private val list: ArrayList<ColorData>,
+              private val cellClickListener: CellClickListener) :
     RecyclerView.Adapter<Adapter.ViewHolder>(){
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val color: View = view.findViewById(R.id.rColor)
@@ -29,5 +30,9 @@ class Adapter(private val context: Context,
         val data = list[position]
         holder.color.setBackgroundColor(data.colorHex)
         holder.text.setText(data.colorName)
+
+        holder.itemView.setOnClickListener {
+            cellClickListener.onCellClickListener(data)
+        }
     }
 }

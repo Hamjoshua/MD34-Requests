@@ -9,17 +9,21 @@ import android.os.Bundle
 import android.provider.CalendarContract.Colors
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+interface CellClickListener {
+    fun onCellClickListener(data: ColorData)
+}
+class MainActivity : AppCompatActivity(), CellClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val rView: RecyclerView = findViewById(R.id.rView)
         rView.layoutManager = LinearLayoutManager(this)
-        rView.adapter = Adapter(this, updateList())
+        rView.adapter = Adapter(this, updateList(), this)
     }
 
     private fun updateList() : ArrayList<ColorData> {
@@ -44,6 +48,10 @@ class MainActivity : AppCompatActivity() {
         )
 
         return list;
+    }
+
+    override fun onCellClickListener(data: ColorData) {
+        Toast.makeText(this, "${data.colorName} is clicked", Toast.LENGTH_SHORT).show()
     }
 }
 
